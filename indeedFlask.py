@@ -7,20 +7,18 @@ Created on Fri Dec  3 16:57:12 2021
 """
 
 from flask import Flask
+from flask import request
 from bs4 import BeautifulSoup
+import pandas as pd
 import requests
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+import numpy as np
 
 
 app = Flask(__name__)
 
 @app.route('/<company>',methods=['GET'])
-def getReviews(company):
-    from bs4 import BeautifulSoup
-    import pandas as pd
-    import requests
-    from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-    import numpy as np
-    
+def getReviews(company):    
     
     reviews = []
     pages = [20,40,60,80,100,120,140,160,180,200]
