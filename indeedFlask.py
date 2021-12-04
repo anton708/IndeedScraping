@@ -18,43 +18,49 @@ app = Flask(__name__)
 
 @app.route('/',methods=['GET'])
 def homePage():
-    return "In order to pull reviews for a given company, please put the full company name in the url.<br>(ie.) http://3.21.246.247:8080/Apple"
+    return "We need to make this page nicer <br><br>"+ "In order to pull reviews for a given company, please put the full company name in the url.<br>(ie.) <b>http://3.21.246.247:8080/Apple</b> <br><br> If you would like to input multiple companies to compare them, write the companies in the URL separated by a comma using no spaces.<br>(ie.) <b>http://3.21.246.247:8080/Apple,Microsoft,IBM</b>"
 
 @app.route('/<company>',methods=['GET'])
 def getReviews(company):    
-    
-    reviews = []
-    pages = [20,40,60,80,100,120,140,160,180,200]
-    for page in pages:
-        base_url= 'https://www.indeed.com/cmp/{}/reviews?start=' + str(page)
-        url = base_url.format(company)
-        
-        header = {"User-Agent":"Mozilla/5.0 Gecko/20100101 Firefox/33.0 GoogleChrome/10.0"}
-        
-        page = requests.get(url,headers = header)
-        soup = BeautifulSoup(page.content, 'lxml')
-        revs = soup.find_all("span", class_="css-1cxc9zk e1wnkr790")
-        for rev in revs:
-            if "aria" in str(rev):
-                text = str(rev).replace('''<span class="css-82l4gy eu4oa1w0">''',"").replace("</span>","").replace('''<br aria-hidden="true"/>''',"").replace('''<span aria-hidden="false" class="css-1cxc9zk e1wnkr790" lang="en-AU">''',"").replace("<span>","").replace('''<span aria-hidden="false" class="css-1cxc9zk e1wnkr790">''',"")
-    
-                if text!=" " and text!="" and text is not None:
-                    reviews.append(text)
-    
-    
-    reviews = list(set(reviews))
-    analyzer = SentimentIntensityAnalyzer()
-    
-    sentiment = []
-    for review in reviews:
-        sentiment.append(analyzer.polarity_scores(review)['compound'])
-    
-    reviewCount = len(reviews)
-    meanSentiment = np.mean(sentiment)
-    worstReview = reviews[sentiment.index(min(sentiment))]
-    bestReview = reviews[sentiment.index(max(sentiment))]
-    return "The company you have entered is " + str(company) + ".<br><br>" + "A total of " + str(reviewCount) + " reviews were gathered averaging a sentiment score of " + str(meanSentiment) + ".<br><br><br>" + "The most negative review reads as follows:<br>" + str(worstReview) + "<br><br>" + "The most positive review reads as follows:<br>" + str(bestReview)
+    try:
+        if "," in company:
+            return "We need to make this page. If user gives a list of companies, we should make a nice table comparing the number of reviews and the review sentiment."
 
+        else:
+            reviews = []
+            pages = [20,40,60,80,100,120,140,160,180,200]
+            for page in pages:
+                base_url= 'https://www.indeed.com/cmp/{}/reviews?start=' + str(page)
+                url = base_url.format(company)
+                
+                header = {"User-Agent":"Mozilla/5.0 Gecko/20100101 Firefox/33.0 GoogleChrome/10.0"}
+                
+                page = requests.get(url,headers = header)
+                soup = BeautifulSoup(page.content, 'lxml')
+                revs = soup.find_all("span", class_="css-1cxc9zk e1wnkr790")
+                for rev in revs:
+                    if "aria" in str(rev):
+                        text = str(rev).replace('''<span class="css-82l4gy eu4oa1w0">''',"").replace("</span>","").replace('''<br aria-hidden="true"/>''',"").replace('''<span aria-hidden="false" class="css-1cxc9zk e1wnkr790" lang="en-AU">''',"").replace("<span>","").replace('''<span aria-hidden="false" class="css-1cxc9zk e1wnkr790">''',"")
+            
+                        if text!=" " and text!="" and text is not None:
+                            reviews.append(text)
+            
+            
+            reviews = list(set(reviews))
+            analyzer = SentimentIntensityAnalyzer()
+            
+            sentiment = []
+            for review in reviews:
+                sentiment.append(analyzer.polarity_scores(review)['compound'])
+            
+            reviewCount = len(reviews)
+            meanSentiment = np.mean(sentiment)
+            worstReview = reviews[sentiment.index(min(sentiment))]
+            bestReview = reviews[sentiment.index(max(sentiment))]
+            return "The company you have entered is " + str(company) + ".<br><br>" + "A total of " + str(reviewCount) + " reviews were gathered averaging a sentiment score of " + str(meanSentiment) + ".<br><br><br>" + "The most negative review reads as follows:<br>" + str(worstReview) + "<br><br>" + "The most positive review reads as follows:<br>" + str(bestReview)
 
+                except:
+        return "<html><p> This company does not exist or this is an invalid input. Please refer to <b>http://3.21.246.247:8080/</b> for valid inputs."
+        
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
