@@ -30,9 +30,8 @@ def getReviews(company):
         page = requests.get(url,headers = header)
         
         soup = BeautifulSoup(page.content, 'lxml')
-        
         revs = soup.find_all("span", class_="css-1cxc9zk e1wnkr790")
-        
+        return("hello")
         for rev in revs:
             if "aria" in str(rev):
                 text = str(rev).replace('''<span class="css-82l4gy eu4oa1w0">''',"").replace("</span>","").replace('''<br aria-hidden="true"/>''',"").replace('''<span aria-hidden="false" class="css-1cxc9zk e1wnkr790" lang="en-AU">''',"").replace("<span>","").replace('''<span aria-hidden="false" class="css-1cxc9zk e1wnkr790">''',"")
@@ -42,7 +41,6 @@ def getReviews(company):
     
     
     reviews = list(set(reviews))
-    return("hello")
     analyzer = SentimentIntensityAnalyzer()
     
     sentiment = []
