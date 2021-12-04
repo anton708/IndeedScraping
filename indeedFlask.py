@@ -28,8 +28,8 @@ def getReviews(company):
         header = {"User-Agent":"Mozilla/5.0 Gecko/20100101 Firefox/33.0 GoogleChrome/10.0"}
         
         page = requests.get(url,headers = header)
-        return("hello")
         soup = BeautifulSoup(page.content, 'lxml')
+        return("hello")
         revs = soup.find_all("span", class_="css-1cxc9zk e1wnkr790")
         for rev in revs:
             if "aria" in str(rev):
