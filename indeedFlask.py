@@ -8,7 +8,6 @@ Created on Fri Dec  3 16:57:12 2021
 
 from flask import Flask
 from bs4 import BeautifulSoup
-import pandas as pd
 import requests
 
 
@@ -16,6 +15,13 @@ app = Flask(__name__)
 
 @app.route('/<company>',methods=['GET'])
 def getReviews(company):
+    from bs4 import BeautifulSoup
+    import pandas as pd
+    import requests
+    from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+    import numpy as np
+    
+    
     reviews = []
     pages = [20,40,60,80,100,120,140,160,180,200]
     for page in pages:
@@ -36,10 +42,22 @@ def getReviews(company):
     
                 if text!=" " and text!="" and text is not None:
                     reviews.append(text)
-
-
+    
+    
     reviews = list(set(reviews))
-    return reviews
+    
+    analyzer = SentimentIntensityAnalyzer()
+    
+    sentiment = []
+    for review in reviews:
+        sentiment.append(analyzer.polarity_scores(review)['compound'])
+    
+    reviewCount = len(reviews)
+    meanSentiment = np.mean(sentiment)
+    worstReview = reviews[sentiment.index(min(sentiment))]
+    bestReview = reviews[sentiment.index(max(sentiment))]
+    
+    return "The company you have entered is " + company + ".\n" + "A total of " + reviewCount + "reviews were gathered averaging a sentiment score of " + meanSentiment + ".\n\n\n" + "The most negative review reads as follows:\n" + worstReview + "\n" + "The most positive review reads as follows:\n" + bestReview
 
 
 if __name__ == "__main__":
