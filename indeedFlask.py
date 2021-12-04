@@ -26,9 +26,9 @@ def getReviews(company):
         url = base_url.format(company)
         
         header = {"User-Agent":"Mozilla/5.0 Gecko/20100101 Firefox/33.0 GoogleChrome/10.0"}
-        return("hello")
-        page = requests.get(url,headers = header)
         
+        page = requests.get(url,headers = header)
+        return("hello")
         
         soup = BeautifulSoup(page.content, 'lxml')
         
