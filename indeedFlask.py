@@ -28,10 +28,9 @@ def getReviews(company):
         header = {"User-Agent":"Mozilla/5.0 Gecko/20100101 Firefox/33.0 GoogleChrome/10.0"}
         
         page = requests.get(url,headers = header)
-        
+        return("hello")
         soup = BeautifulSoup(page.content, 'lxml')
         revs = soup.find_all("span", class_="css-1cxc9zk e1wnkr790")
-        return("hello")
         for rev in revs:
             if "aria" in str(rev):
                 text = str(rev).replace('''<span class="css-82l4gy eu4oa1w0">''',"").replace("</span>","").replace('''<br aria-hidden="true"/>''',"").replace('''<span aria-hidden="false" class="css-1cxc9zk e1wnkr790" lang="en-AU">''',"").replace("<span>","").replace('''<span aria-hidden="false" class="css-1cxc9zk e1wnkr790">''',"")
