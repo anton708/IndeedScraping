@@ -9,7 +9,6 @@ Created on Fri Dec  3 16:57:12 2021
 from flask import Flask
 from flask import request
 from bs4 import BeautifulSoup
-import pandas as pd
 import requests
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import numpy as np
@@ -27,6 +26,7 @@ def getReviews(company):
         url = base_url.format(company)
         
         header = {"User-Agent":"Mozilla/5.0 Gecko/20100101 Firefox/33.0 GoogleChrome/10.0"}
+        return("hello")
         page = requests.get(url,headers = header)
         
         
