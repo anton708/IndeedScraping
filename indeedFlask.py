@@ -59,8 +59,8 @@ def getReviews(company):
             bestReview = reviews[sentiment.index(max(sentiment))]
             return "The company you have entered is " + str(company) + ".<br><br>" + "A total of " + str(reviewCount) + " reviews were gathered averaging a sentiment score of " + str(meanSentiment) + ".<br><br><br>" + "The most negative review reads as follows:<br>" + str(worstReview) + "<br><br>" + "The most positive review reads as follows:<br>" + str(bestReview)
 
-                except:
-        return "<html><p> This company does not exist or this is an invalid input. Please refer to <b>http://3.21.246.247:8080/</b> for valid inputs."
+        except:
+            return "<html><p> This company does not exist or this is an invalid input. Please refer to <b>http://3.21.246.247:8080/</b> for valid inputs."
         
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
