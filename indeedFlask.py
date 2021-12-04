@@ -28,7 +28,6 @@ def getReviews(company):
         header = {"User-Agent":"Mozilla/5.0 Gecko/20100101 Firefox/33.0 GoogleChrome/10.0"}
         
         page = requests.get(url,headers = header)
-        return("hello")
         
         soup = BeautifulSoup(page.content, 'lxml')
         
@@ -54,6 +53,7 @@ def getReviews(company):
     meanSentiment = np.mean(sentiment)
     worstReview = reviews[sentiment.index(min(sentiment))]
     bestReview = reviews[sentiment.index(max(sentiment))]
+    return("hello")
     return "The company you have entered is " + str(company) + ".<br><br>" + "A total of " + str(reviewCount) + " reviews were gathered averaging a sentiment score of " + str(meanSentiment) + ".<br><br><br>" + "The most negative review reads as follows:<br>" + str(worstReview) + "<br><br>" + "The most positive review reads as follows:<br>" + str(bestReview)
 
 
