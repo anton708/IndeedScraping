@@ -16,6 +16,10 @@ import numpy as np
 
 app = Flask(__name__)
 
+@app.route('/',methods=['GET'])
+def homePage():
+    return "In order to pull reviews for a given company, please put the full company name in the url.<br>(ie.) http://3.21.246.247:8080/Apple"
+
 @app.route('/<company>',methods=['GET'])
 def getReviews(company):    
     
