@@ -23,12 +23,15 @@ def homePage():
 @app.route('/<company>',methods=['GET'])
 def getReviews(company):    
     try:
+        # If multiple companies
         if "," in company:
             return "We need to make this page. If user gives a list of companies, we should make a nice table comparing the number of reviews and the review sentiment."
-
+        
+        # Else if one company
         else:
             reviews = []
             pages = [20,40,60,80,100,120,140,160,180,200]
+            #looping through 10 pages on indeed to scrape reviews
             for page in pages:
                 base_url= 'https://www.indeed.com/cmp/{}/reviews?start=' + str(page)
                 url = base_url.format(company)
@@ -59,6 +62,7 @@ def getReviews(company):
             bestReview = reviews[sentiment.index(max(sentiment))]
             return "The company you have entered is " + str(company) + ".<br><br>" + "A total of " + str(reviewCount) + " reviews were gathered averaging a sentiment score of " + str(meanSentiment) + ".<br><br><br>" + "The most negative review reads as follows:<br>" + str(worstReview) + "<br><br>" + "The most positive review reads as follows:<br>" + str(bestReview)
 
+    # Error page when user gives wrong input
     except:
         return "<html><p> This company does not exist or this is an invalid input. Please refer to <b>http://3.21.246.247:8080/</b> for valid inputs."
         
