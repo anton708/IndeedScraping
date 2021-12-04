@@ -54,8 +54,7 @@ def getReviews(company):
     meanSentiment = np.mean(sentiment)
     worstReview = reviews[sentiment.index(min(sentiment))]
     bestReview = reviews[sentiment.index(max(sentiment))]
-    
-    return "The company you have entered is " + company + ".\n" + "A total of " + reviewCount + "reviews were gathered averaging a sentiment score of " + meanSentiment + ".\n\n\n" + "The most negative review reads as follows:\n" + worstReview + "\n" + "The most positive review reads as follows:\n" + bestReview
+    return "The company you have entered is " + str(company) + ".<br><br>" + "A total of " + str(reviewCount) + " reviews were gathered averaging a sentiment score of " + str(meanSentiment) + ".<br><br><br>" + "The most negative review reads as follows:<br>" + str(worstReview) + "<br><br>" + "The most positive review reads as follows:<br>" + str(bestReview)
 
 
 if __name__ == "__main__":
