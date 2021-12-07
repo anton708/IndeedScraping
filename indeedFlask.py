@@ -40,6 +40,7 @@ def getReviews(company):
                 
                 page = requests.get(url,headers = header)
                 soup = BeautifulSoup(page.content, 'lxml')
+                compName =soup.find("div", class_="css-17x766f e1wnkr790").text
                 revs = soup.find_all("span", class_="css-1cxc9zk e1wnkr790")
                 for rev in revs:
                     if "aria" in str(rev):
@@ -60,7 +61,7 @@ def getReviews(company):
             meanSentiment = np.mean(sentiment)
             worstReview = reviews[sentiment.index(min(sentiment))]
             bestReview = reviews[sentiment.index(max(sentiment))]
-            return "The company you have entered is " + str(company) + ".<br><br>" + "A total of " + str(reviewCount) + " reviews were gathered averaging a sentiment score of " + str(meanSentiment) + ".<br><br><br>" + "The most negative review reads as follows:<br>" + str(worstReview) + "<br><br>" + "The most positive review reads as follows:<br>" + str(bestReview)
+            return "Reviews were pulled for " + str(compName) + ".<br><br>" + "A total of " + str(reviewCount) + " reviews were gathered averaging a sentiment score of " + str(meanSentiment) + ".<br><br><br>" + "The most negative review reads as follows:<br>" + str(worstReview) + "<br><br>" + "The most positive review reads as follows:<br>" + str(bestReview)
 
     # Error page when user gives wrong input
     except:
