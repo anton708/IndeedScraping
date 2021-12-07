@@ -30,7 +30,7 @@ def getReviews(company):
         # Else if one company
         else:
             reviews = []
-            pages = [20,40,60,80,100,120,140,160,180,200]
+            pages = [0,20,40,60,80,100,120,140,160,180]
             #looping through 10 pages on indeed to scrape reviews
             for page in pages:
                 base_url= 'https://www.indeed.com/cmp/{}/reviews?start=' + str(page)
