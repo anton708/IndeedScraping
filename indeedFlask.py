@@ -89,8 +89,8 @@ def getReviews(comp):
                 worstReview) + "<br><br>" + "The most positive review reads as follows:<br>" + str(bestReview)
         else:
             return table
+        
     # Error page when user gives wrong input
-
     except:
         return "<html><p> This company does not exist or this is an invalid input. Please refer to <b>http://3.21.246.247:8080/</b> for valid inputs."
 
