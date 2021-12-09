@@ -46,7 +46,13 @@ def getReviews(comp):
 
                 page = requests.get(url, headers=header)
                 soup = BeautifulSoup(page.content, 'lxml')
-                compName = soup.find("div", class_="css-17x766f e1wnkr790").text
+                try:
+                    try:
+                        compName = soup.find("div", class_="css-17x766f e1wnkr790").text
+                    except:
+                        compName = soup.find("div", class_="css-86gyd7 e1wnkr790").text
+                except:
+                    compName = company
                 revs = soup.find_all("span", class_="css-1cxc9zk e1wnkr790")
                 for rev in revs:
                     if "aria" in str(rev):
