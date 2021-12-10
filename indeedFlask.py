@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Fri Dec  3 16:57:12 2021
+Created on Fri Dec 10 01:35:54 2021
 
-@author: Anton
+@author: lukericciardi
 """
-
 
 from flask import Flask
 from flask import request
@@ -21,7 +20,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def homePage():
-    return "We need to make this page nicer <br><br>" + "In order to pull reviews for a given company, please put the full company name in the url.<br>(ie.) <b>http://3.21.246.247:8080/Apple</b> <br><br> If you would like to input multiple companies to compare them, write the companies in the URL separated by a comma using no spaces.<br>(ie.) <b>http://3.21.246.247:8080/Apple,Microsoft,IBM</b>"
+    return '''<body style="background-color:#DCDBDE"> <h1 style="font-size:2vw">Welcome to the company sentiment portal! There are two features available on this portal.</h1>   <br><br> 1. In order to pull reviews for a single given company, please put the full company name in the url.<br>(ie.) <a href="http://3.21.246.247:8080/Apple">http://3.21.246.247:8080/Apple</a> <br><br> This output will return how many reviews a company has (with a max of 200), the highest sentiment review, the lowest sentiment review, and the average sentiment of the company. <br><br> 2. If you would like to input multiple companies to compare them, write the companies in the URL separated by a comma using no spaces.<br>(ie.) <a href="http://3.21.246.247:8080/Apple,Microsoft,IBM">http://3.21.246.247:8080/Apple,Microsoft,IBM</a> <br><br> This will return how many reviews all of the companies have (with a max of 200), the highest sentiment review, the lowest sentiment review, and the average sentiment of each company in a table. <br> <br> This feature works best for comparisons. <br><br> <b>Please allow for around 10 seconds of run time per company entered </b> </body>'''
 
 #   @Neil: Modified getReviews to handle one or more companies separated by a "," and to send output to a list which then populates a dictionary which will then load a pandas df.
 @app.route('/<comp>', methods=['GET'])
@@ -89,16 +88,13 @@ def getReviews(comp):
         table = df.to_html(index=False, justify="center")
 
         if len(Companies) == 1:
-            return "Reviews were pulled for " + str(compName) + ".<br><br>" + "A total of " + str(
-                reviewCount) + " reviews were gathered averaging a sentiment score of " + str(
-                meanSentiment) + ".<br><br><br>" + "The most negative review reads as follows:<br>" + str(
-                worstReview) + "<br><br>" + "The most positive review reads as follows:<br>" + str(bestReview)
+            return '''<html> <body style="background-color:#DCDBDE"> <h1 style="font-size:2vw">Reviews were pulled for {name}.</h1><br><br> A total of {count} reviews were gathered averaging a sentiment score of  {sentiment}.<br><br><br> <b> The most negative review reads as follows:</b> <br> {worst} <br><br> <b>The most positive review reads as follows:</b><br> {best} </body></html>'''.format(name=compName,count= reviewCount,sentiment=meanSentiment,best=bestReview,worst=worstReview) 
         else:
-            return table
+            return table 
         
     # Error page when user gives wrong input
     except:
-        return "<html><p> This company does not exist or this is an invalid input. Please refer to <b>http://3.21.246.247:8080/</b> for valid inputs."
+        return '''<html> <body style="background-color:#DCDBDE"> <p> <h1 style="font-size:2vw">Error:404 Not Found <br> This company does not exist or this is an invalid input.</h1><br><br> Please refer to <a href="http://3.21.246.247:8080">http://3.21.246.247:8080</a> for valid inputs.</p> </body> </html> '''
 
 
 if __name__ == "__main__":
